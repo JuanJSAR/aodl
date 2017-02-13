@@ -34,7 +34,7 @@ namespace AODL.Document.Import
 		/// </summary>
 		/// <param name="document">The document.</param>
 		/// <param name="filename">The filename.</param>
-		void Import(IDocument document,string filename);
+		void Import(IDocument document,string filename,string tmpPath);
 		//Must give access to not importable objects as string
 		/// <summary>
 		/// Gets the import error.

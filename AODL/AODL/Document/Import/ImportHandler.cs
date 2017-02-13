@@ -47,7 +47,7 @@ namespace AODL.Document.Import
 		/// <param name="documentType">Type of the document.</param>
 		/// <param name="loadPath">The save path.</param>
 		/// <returns></returns>
-		public IImporter GetFirstImporter(DocumentTypes documentType, string loadPath)
+		public IImporter GetFirstImporter(DocumentTypes documentType, string loadPath,string tmpPath)
 		{
 			string targetExtension			= ExportHandler.GetExtension(loadPath);
 

@@ -98,7 +98,7 @@ namespace AODL.Document
 		/// Load the given file.
 		/// </summary>
 		/// <param name="file"></param>
-		void Load(string file);
+		void Load(string file,string tmpPath);
 		/// <summary>
 		/// Save the document at the given file position.
 		/// </summary>

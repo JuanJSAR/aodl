@@ -315,7 +315,7 @@ namespace AODL.Document.TextDocuments
 		/// Loads the document by using the specified importer.
 		/// </summary>
 		/// <param name="file">The the file.</param>
-		public void Load(string file)
+		public void Load(string file,string tmpPath)
 		{
 			try
 			{
@@ -326,12 +326,12 @@ namespace AODL.Document.TextDocuments
 				this.NamespaceManager			= TextDocumentHelper.NameSpace(this._xmldoc.NameTable);
 
 				ImportHandler importHandler		= new ImportHandler();
-				IImporter importer				= importHandler.GetFirstImporter(DocumentTypes.TextDocument, file);
+				IImporter importer				= importHandler.GetFirstImporter(DocumentTypes.TextDocument, file,tmpPath);
 				if(importer != null)
 				{
 					if(importer.NeedNewOpenDocument)
 						this.New();
-					importer.Import(this,file);
+					importer.Import(this,file,tmpPath);
 
 					if(importer.ImportError != null)
 						if(importer.ImportError.Count > 0)

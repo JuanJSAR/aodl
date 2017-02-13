@@ -70,7 +70,7 @@ namespace AODL.Document.Import.PlainText
 		/// <param name="document">The TextDocument to fill.</param>
 		/// <param name="filename">The filename.</param>		
 		/// <returns>The created TextDocument</returns>
-		public void Import(IDocument document, string filename)
+		public void Import(IDocument document, string filename,string tmpPath=null)
 		{
 			try
 			{

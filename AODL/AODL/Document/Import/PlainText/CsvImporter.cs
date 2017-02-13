@@ -30,216 +30,216 @@ using AODL.Document.SpreadsheetDocuments;
 
 namespace AODL.Document.Import.PlainText
 {
-	/// <summary>
-	/// CsvImporter, a class for importing csv files into
-	/// OpenDocument spreadsheet documents.
-	/// </summary>
-	public class CsvImporter : IImporter, IPublisherInfo
-	{
-		/// <summary>
-		/// The document to fill with content.
-		/// </summary>
-		internal IDocument _document;
+    /// <summary>
+    /// CsvImporter, a class for importing csv files into
+    /// OpenDocument spreadsheet documents.
+    /// </summary>
+    public class CsvImporter : IImporter, IPublisherInfo
+    {
+        /// <summary>
+        /// The document to fill with content.
+        /// </summary>
+        internal IDocument _document;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CsvImporter"/> class.
-		/// </summary>
-		public CsvImporter()
-		{
-			this._importError					= new ArrayList();
-			
-			this._supportedExtensions			= new ArrayList();
-			this._supportedExtensions.Add(new DocumentSupportInfo(".csv", DocumentTypes.SpreadsheetDocument));
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CsvImporter"/> class.
+        /// </summary>
+        public CsvImporter()
+        {
+            this._importError = new ArrayList();
 
-			this._author						= "Lars Behrmann, lb@OpenDocument4all.com";
-			this._infoUrl						= "http://AODL.OpenDocument4all.com";
-			this._description					= "This the standard importer for comma seperated text files of the OpenDocument library AODL.";
-		}
+            this._supportedExtensions = new ArrayList();
+            this._supportedExtensions.Add(new DocumentSupportInfo(".csv", DocumentTypes.SpreadsheetDocument));
 
-		#region IExporter Member
+            this._author = "Lars Behrmann, lb@OpenDocument4all.com";
+            this._infoUrl = "http://AODL.OpenDocument4all.com";
+            this._description = "This the standard importer for comma seperated text files of the OpenDocument library AODL.";
+        }
 
-		private ArrayList _supportedExtensions;
-		/// <summary>
-		/// Gets the document support infos.
-		/// </summary>
-		/// <value>The document support infos.</value>
-		public ArrayList DocumentSupportInfos
-		{
-			get { return this._supportedExtensions; }
-		}
+        #region IExporter Member
 
-		/// <summary>
-		/// Imports the specified filename.
-		/// </summary>
-		/// <param name="document">The TextDocument to fill.</param>
-		/// <param name="filename">The filename.</param>		
-		/// <returns>The created TextDocument</returns>
-		public void Import(IDocument document, string filename)
-		{
-			try
-			{
-				this._document			= document;
-				ArrayList lines			= this.GetFileContent(filename);
-					
-				if(lines.Count > 0)
-					this.CreateTables(lines);
-				else
-				{
-					AODLWarning warning	= new AODLWarning("Empty file. ["+filename+"]");
-					this.ImportError.Add(warning);
-				}
-			}
-			catch(Exception ex)
-			{
-				throw;
-			}
-		}
+        private ArrayList _supportedExtensions;
+        /// <summary>
+        /// Gets the document support infos.
+        /// </summary>
+        /// <value>The document support infos.</value>
+        public ArrayList DocumentSupportInfos
+        {
+            get { return this._supportedExtensions; }
+        }
 
-		private ArrayList _importError;
-		/// <summary>
-		/// Gets the import errors as ArrayList of strings.
-		/// </summary>
-		/// <value>The import errors.</value>
-		public System.Collections.ArrayList ImportError
-		{
-			get
-			{
-				return this._importError;
-			}
-		}
+        /// <summary>
+        /// Imports the specified filename.
+        /// </summary>
+        /// <param name="document">The TextDocument to fill.</param>
+        /// <param name="filename">The filename.</param>		
+        /// <returns>The created TextDocument</returns>
+        public void Import(IDocument document, string filename, string tmpPath = null)
+        {
+            try
+            {
+                this._document = document;
+                ArrayList lines = this.GetFileContent(filename);
 
-		/// <summary>
-		/// If the import file format isn't any OpenDocument
-		/// format you have to return true and AODL will
-		/// create a new one.
-		/// </summary>
-		/// <value></value>
-		public bool NeedNewOpenDocument
-		{
-			get { return true; }
-		}
+                if (lines.Count > 0)
+                    this.CreateTables(lines);
+                else
+                {
+                    AODLWarning warning = new AODLWarning("Empty file. [" + filename + "]");
+                    this.ImportError.Add(warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
-		#endregion
+        private ArrayList _importError;
+        /// <summary>
+        /// Gets the import errors as ArrayList of strings.
+        /// </summary>
+        /// <value>The import errors.</value>
+        public System.Collections.ArrayList ImportError
+        {
+            get
+            {
+                return this._importError;
+            }
+        }
 
-		#region IPublisherInfo Member
+        /// <summary>
+        /// If the import file format isn't any OpenDocument
+        /// format you have to return true and AODL will
+        /// create a new one.
+        /// </summary>
+        /// <value></value>
+        public bool NeedNewOpenDocument
+        {
+            get { return true; }
+        }
 
-		private string _author;
-		/// <summary>
-		/// The name the Author
-		/// </summary>
-		/// <value></value>
-		public string Author
-		{
-			get
-			{
-				return this._author;
-			}
-		}
+        #endregion
 
-		private string _infoUrl;
-		/// <summary>
-		/// Url to a info site
-		/// </summary>
-		/// <value></value>
-		public string InfoUrl
-		{
-			get
-			{
-				return this._infoUrl;
-			}
-		}
+        #region IPublisherInfo Member
 
-		private string _description;
-		/// <summary>
-		/// Description about the exporter resp. importer
-		/// </summary>
-		/// <value></value>
-		public string Description
-		{
-			get
-			{
-				return this._description;
-			}
-		}
+        private string _author;
+        /// <summary>
+        /// The name the Author
+        /// </summary>
+        /// <value></value>
+        public string Author
+        {
+            get
+            {
+                return this._author;
+            }
+        }
 
-		#endregion
+        private string _infoUrl;
+        /// <summary>
+        /// Url to a info site
+        /// </summary>
+        /// <value></value>
+        public string InfoUrl
+        {
+            get
+            {
+                return this._infoUrl;
+            }
+        }
 
-		/// <summary>
-		/// Creates the tables.
-		/// </summary>
-		/// <param name="lines">The lines.</param>
-		private void CreateTables(ArrayList lines)
-		{
-			string unicodeDelimiter				= "\u00BF"; // turned question mark
+        private string _description;
+        /// <summary>
+        /// Description about the exporter resp. importer
+        /// </summary>
+        /// <value></value>
+        public string Description
+        {
+            get
+            {
+                return this._description;
+            }
+        }
 
-			if(lines != null)
-			{
-				Table table						= TableBuilder.CreateSpreadsheetTable(
-					(SpreadsheetDocument)this._document, "Table1", "table1");
-				//First line must specify the used delimiter
-				string delimiter				= lines[0] as string;
-				lines.RemoveAt(0);
+        #endregion
 
-				try
-				{
-					//Perform lines
-					foreach(string line in lines)
-					{
-						string lineContent			= line.Replace(delimiter, unicodeDelimiter);
-						string[] cellContents		= lineContent.Split(unicodeDelimiter.ToCharArray());
-						Row row						= new Row(table);
-						foreach(string cellContent in cellContents)
-						{
-							Cell cell				= new Cell(table);
-							Paragraph paragraph		= ParagraphBuilder.CreateSpreadsheetParagraph(this._document);
-							paragraph.TextContent.Add(new SimpleText(this._document, cellContent));
-							cell.Content.Add(paragraph);
-							row.InsertCellAt(row.CellCollection.Count, cell);
-						}
-						table.RowCollection.Add(row);
-					}
-				}
-				catch(Exception ex)
-				{
-					AODLException aodlExeception		= new AODLException("Error while proccessing the csv file.");
-					aodlExeception.InMethod				= AODLException.GetExceptionSourceInfo(new StackFrame(1, true));
-					aodlExeception.OriginalException	= ex;
+        /// <summary>
+        /// Creates the tables.
+        /// </summary>
+        /// <param name="lines">The lines.</param>
+        private void CreateTables(ArrayList lines)
+        {
+            string unicodeDelimiter = "\u00BF"; // turned question mark
 
-					throw aodlExeception;
-				}
+            if (lines != null)
+            {
+                Table table = TableBuilder.CreateSpreadsheetTable(
+                    (SpreadsheetDocument)this._document, "Table1", "table1");
+                //First line must specify the used delimiter
+                string delimiter = lines[0] as string;
+                lines.RemoveAt(0);
 
-				this._document.Content.Add(table);
-			}
-		}
+                try
+                {
+                    //Perform lines
+                    foreach (string line in lines)
+                    {
+                        string lineContent = line.Replace(delimiter, unicodeDelimiter);
+                        string[] cellContents = lineContent.Split(unicodeDelimiter.ToCharArray());
+                        Row row = new Row(table);
+                        foreach (string cellContent in cellContents)
+                        {
+                            Cell cell = new Cell(table);
+                            Paragraph paragraph = ParagraphBuilder.CreateSpreadsheetParagraph(this._document);
+                            paragraph.TextContent.Add(new SimpleText(this._document, cellContent));
+                            cell.Content.Add(paragraph);
+                            row.InsertCellAt(row.CellCollection.Count, cell);
+                        }
+                        table.RowCollection.Add(row);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AODLException aodlExeception = new AODLException("Error while proccessing the csv file.");
+                    aodlExeception.InMethod = AODLException.GetExceptionSourceInfo(new StackFrame(1, true));
+                    aodlExeception.OriginalException = ex;
 
-		/// <summary>
-		/// Gets the content of the file.
-		/// </summary>
-		/// <param name="fileName">Name of the file.</param>
-		/// <returns>All text lines as an ArrayList of strings.</returns>
-		private ArrayList GetFileContent(string fileName)
-		{
-			ArrayList lines						= new ArrayList();
+                    throw aodlExeception;
+                }
 
-			try
-			{
-				StreamReader sReader	= File.OpenText(fileName);
-				string currentLine		= null;
+                this._document.Content.Add(table);
+            }
+        }
 
-				while((currentLine = sReader.ReadLine()) != null)
-				{
-					lines.Add(currentLine);
-				}
-				sReader.Close();
-			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
+        /// <summary>
+        /// Gets the content of the file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>All text lines as an ArrayList of strings.</returns>
+        private ArrayList GetFileContent(string fileName)
+        {
+            ArrayList lines = new ArrayList();
 
-			return lines;
-		}
-	}
+            try
+            {
+                StreamReader sReader = File.OpenText(fileName);
+                string currentLine = null;
+
+                while ((currentLine = sReader.ReadLine()) != null)
+                {
+                    lines.Add(currentLine);
+                }
+                sReader.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lines;
+        }
+    }
 }
 
 /*

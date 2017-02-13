@@ -47,10 +47,14 @@ namespace AODL.Document.Import.OpenDocument
 //		internal static readonly string dir		= Environment.CurrentDirectory+@"\aodlread\";
 //		internal static readonly string dirpics	= Environment.CurrentDirectory+@"\PicturesRead\";
 		internal static Guid folderGuid			= Guid.NewGuid();
-		internal static readonly string dir		= Environment.CurrentDirectory+@"\"+folderGuid.ToString()+@"\";
-		internal static readonly string dirpics	= dir+@"PicturesRead\";
+		internal static  string dir		= Environment.CurrentDirectory+@"\"+folderGuid.ToString()+@"\";
+		internal static  string dirpics	= dir+@"PicturesRead\";
 
-
+        internal void setDir(string tmpPath)
+        {
+            dir = Path.Combine(tmpPath, folderGuid.ToString()) + @"\";
+            dirpics	= dir+@"PicturesRead\";
+        }
 		/// <summary>
 		/// The document to fill with content.
 		/// </summary>
@@ -90,10 +94,12 @@ namespace AODL.Document.Import.OpenDocument
 		/// <param name="document">The TextDocument to fill.</param>
 		/// <param name="filename">The filename.</param>		
 		/// <returns>The created TextDocument</returns>
-		public void Import(IDocument document, string filename)
+		public void Import(IDocument document, string filename,string tmpPath=null)
 		{
 			try
 			{
+                if (tmpPath != null)
+                    setDir(tmpPath);
 				this._document		= document;
 				this.UnpackFiles(filename);
 				this.ReadContent();
@@ -373,21 +379,21 @@ namespace AODL.Document.Import.OpenDocument
 
                 // Apply tweaks to fix compatibility issues. This currently does the following:
                 //  1. Expands repeated rows and columns.
-                Assembly ass = Assembly.GetExecutingAssembly();
-                using ( Stream str = ass.GetManifestResourceStream( "AODL.Resources.OD.tweakcontent.xsl" ) )
-                using ( XmlReader xr = XmlReader.Create( str ) )
-                using ( MemoryStream ms = new MemoryStream() )
-                {
-                    XslCompiledTransform xsl = new XslCompiledTransform();
-                    xsl.Load( xr );
+                //Assembly ass = Assembly.GetExecutingAssembly();
+                //using ( Stream str = ass.GetManifestResourceStream( "AODL.Resources.OD.tweakcontent.xsl" ) )
+                //using ( XmlReader xr = XmlReader.Create( str ) )
+                //using ( MemoryStream ms = new MemoryStream() )
+                //{
+                //    XslCompiledTransform xsl = new XslCompiledTransform();
+                //    xsl.Load( xr );
                     
-                    using ( XmlWriter xw = XmlWriter.Create( ms ) )
-                    {
-                        xsl.Transform( _document.XmlDoc, xw );
-                    }
-                    ms.Position = 0;
-                    _document.XmlDoc.Load( ms );
-                }
+                //    using ( XmlWriter xw = XmlWriter.Create( ms ) )
+                //    {
+                //        xsl.Transform( _document.XmlDoc, xw );
+                //    }
+                //    ms.Position = 0;
+                //    _document.XmlDoc.Load( ms );
+                //}
 
 				//Read local styles
 				LocalStyleProcessor lsp			= new LocalStyleProcessor(this._document, false);

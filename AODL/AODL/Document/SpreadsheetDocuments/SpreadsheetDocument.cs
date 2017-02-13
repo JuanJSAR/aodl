@@ -336,7 +336,7 @@ namespace AODL.Document.SpreadsheetDocuments
 		/// Load the given file.
 		/// </summary>
 		/// <param name="file"></param>
-		public void Load(string file)
+		public void Load(string file,string tmpPath)
 		{
 			try
 			{
@@ -346,13 +346,13 @@ namespace AODL.Document.SpreadsheetDocuments
 				this.NamespaceManager			= TextDocumentHelper.NameSpace(this._xmldoc.NameTable);
 
 				ImportHandler importHandler		= new ImportHandler();
-				IImporter importer				= importHandler.GetFirstImporter(DocumentTypes.SpreadsheetDocument, file);
+				IImporter importer				= importHandler.GetFirstImporter(DocumentTypes.SpreadsheetDocument, file,tmpPath);
 
 				if(importer != null)
 				{
 					if(importer.NeedNewOpenDocument)
 						this.New();
-					importer.Import(this,file);
+					importer.Import(this,file,tmpPath);
 
 					if(importer.ImportError != null)
 						if(importer.ImportError.Count > 0)
