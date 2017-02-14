@@ -229,7 +229,7 @@ namespace AODL.Document.Import.OpenDocument
 				s.Close();
 				
 				this.MovePictures();
-				this.ReadResources();
+				//this.ReadResources();
 			}
 			catch(Exception ex)
 			{
@@ -399,14 +399,14 @@ namespace AODL.Document.Import.OpenDocument
 				LocalStyleProcessor lsp			= new LocalStyleProcessor(this._document, false);
 				lsp.ReadStyles();
 				//Import common styles and read common styles
-				this.ImportCommonStyles();
+				//this.ImportCommonStyles();
 				lsp								= new LocalStyleProcessor(this._document, true);
-				lsp.ReadStyles();
-				
-				MainContentProcessor mcp		= new MainContentProcessor(this._document);
-				mcp.OnWarning					+=new AODL.Document.Import.OpenDocument.NodeProcessors.MainContentProcessor.Warning(mcp_OnWarning);
-				TextContentProcessor.OnWarning	+=new AODL.Document.Import.OpenDocument.NodeProcessors.TextContentProcessor.Warning(TextContentProcessor_OnWarning);
-				mcp.ReadContentNodes();
+				//lsp.ReadStyles();
+
+                MainContentProcessor mcp = new MainContentProcessor(this._document);
+                mcp.OnWarning += new AODL.Document.Import.OpenDocument.NodeProcessors.MainContentProcessor.Warning(mcp_OnWarning);
+                TextContentProcessor.OnWarning += new AODL.Document.Import.OpenDocument.NodeProcessors.TextContentProcessor.Warning(TextContentProcessor_OnWarning);
+                mcp.ReadContentNodes();
 			}
 			catch(Exception ex)
 			{
